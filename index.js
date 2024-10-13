@@ -1,7 +1,7 @@
 const { execSync } = require("child_process");
 const prompts = require("prompts");
 const kleur = require("kleur");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 async function setupProject() {
@@ -9,7 +9,7 @@ async function setupProject() {
     {
       type: "text",
       name: "projectName",
-      message: "Name of the project?:",
+      message: "Enter a project name:",
     },
     {
       type: "select",
@@ -20,20 +20,9 @@ async function setupProject() {
         { title: kleur.cyan("React"), value: "react" },
       ],
     },
-    {
-      type: "select",
-      name: "variant",
-      message: "Select a variant:",
-      choices: [
-        kleur.blue("TypeScript"),
-        kleur.blue("TypeScript + SWC"),
-        kleur.yellow("JavaScript"),
-        kleur.yellow("JavaScript + SWC"),
-      ],
-    },
   ]);
 
-  const { projectName, framework, variant } = response;
+  const { projectName, framework } = response;
 
   const projectDir = path.join(process.cwd(), projectName);
 
@@ -44,49 +33,26 @@ async function setupProject() {
     fs.mkdirSync(backendDir);
 
     console.log("Setting up the backend...");
-    execSync("npm init -y", { cwd: backendDir, stdio: "inherit" });
-    execSync("npm install express mysql2 dotenv cors", {
-      cwd: backendDir,
-      stdio: "inherit",
-    });
 
-    const packageJsonPath = path.join(backendDir, "package.json");
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+    const localBackendDir = path.join(__dirname, "./backend");
+    fs.copySync(localBackendDir, backendDir);
 
-    packageJson.type = "module";
-    packageJson.scripts = {
-      start: "node index.js",
-      ...packageJson.scripts,
-    };
-
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
-
-    fs.writeFileSync(
-      path.join(backendDir, "index.js"),
-      fs.readFileSync(path.join(__dirname, "backend", "index.js"))
-    );
-    fs.writeFileSync(
-      path.join(backendDir, ".env"),
-      fs.readFileSync(path.join(__dirname, "backend", ".env"))
-    );
-
-    const configDir = path.join(backendDir, "config");
-    fs.mkdirSync(configDir);
-
-    fs.writeFileSync(
-      path.join(configDir, "db.js"),
-      fs.readFileSync(path.join(__dirname, "backend", "config", "db.js"))
-    );
+    console.log("Installing backend dependencies...");
+    execSync("npm install", { cwd: backendDir, stdio: "inherit" });
 
     const frontendDir = path.join(projectDir, "frontend");
 
     console.log("Setting up the frontend...");
 
-    execSync(
-      `npm create vite@latest frontend -- --template ${framework} -- --variant ${variant}`,
-      { stdio: "inherit" }
-    );
-    changeViteConfig(frontendDir);
+    fs.mkdirSync(frontendDir);
+
+    const localFrontendDir = path.join(__dirname, `./${framework}`);
+    fs.copySync(localFrontendDir, frontendDir);
+
+    console.log("Installing frontend dependencies...");
+    execSync("npm install", { cwd: frontendDir, stdio: "inherit" });
+
+    console.log("Project setup completed successfully!");
   } catch (error) {
     console.error("There was an error creating the setup:", error);
   }
