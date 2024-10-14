@@ -1,13 +1,18 @@
 import Home from "./src/pages/home.js";
 import SignIn from "./src/pages/signing.js";
 import SignUp from "./src/pages/signup.js";
+import NotFound from "./src/pages/notFound.js";
 
-document.addEventListener("DOMContentLoaded", function () {
-  if (location.pathname === "/") {
-    Home();
-  } else if (this.location.pathname === "/signin") {
-    SignIn();
-  } else if (this.location.pathname === "/signup") {
-    SignUp();
-  }
-});
+const routes = {
+  "/": Home,
+  "/signin": SignIn,
+  "/signup": SignUp,
+};
+
+const routing = () => {
+  const path = location.pathname;
+  const page = routes[path] || NotFound; 
+  page();
+};
+
+document.addEventListener("DOMContentLoaded", routing);
