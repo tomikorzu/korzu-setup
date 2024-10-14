@@ -6,10 +6,10 @@ const NavbarMenu = ({ items }) => {
   const navigate = useNavigate();
 
   const handleLinkButton = (url) => {
-    document.querySelector('body').classList.add("fade-out");
+    document.querySelector("body").classList.add("fade-out");
     setTimeout(() => {
       navigate(url);
-      document.querySelector('body').classList.remove("fade-out");
+      document.querySelector("body").classList.remove("fade-out");
     }, 500);
   };
 
@@ -22,6 +22,15 @@ const NavbarMenu = ({ items }) => {
       const navbarMenu = document.querySelector(".navbar-menu");
       navbarMenu.classList.toggle("fade-in-menu");
     };
+
+    items.forEach((item, index) => {
+      if (item.active) {
+        document
+          .querySelectorAll(".navbar-item")
+          [index].querySelector(".navbar-link")
+          .classList.add("active-item");
+      }
+    });
 
     toggleBtn.addEventListener("click", handleToggle);
 

@@ -1,4 +1,4 @@
-import { userAlert, redirectPage } from "./mainFunctions.js";
+import { userAlert } from "./mainFunctions.js";
 
 export class User {
   constructor(username, email, password, fullname) {

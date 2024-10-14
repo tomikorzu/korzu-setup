@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import NavbarMenu from "../components/NavbarMenu.jsx";
-import { redirectPage, applyBlur } from "../utils/mainFunctions.js";
-import DesplegableMenu from "../components/DesplegableMenu.jsx";
+import { redirectPage, changePageSetting } from "../utils/mainFunctions.js";
 import { User } from "../utils/variables.js";
 import { userAlert } from "../utils/mainFunctions.js";
 
 const signUp = () => {
-  const [showMenu, setShowMenu] = useState(false);
   useEffect(() => {
-    applyBlur();
-  }, [showMenu]);
-  useEffect(() => {
-    document.title = "Home - Sign-Up";
+    changePageSetting("Home - Sign-Up", "../../public/vite.svg");
+    const signUpForm = document.getElementById("sign-up-form");
+    signUpForm.addEventListener("submit", submitForm);
     const goToSignInBtn = document.getElementById("go-to-sign-in");
     goToSignInBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -19,7 +16,7 @@ const signUp = () => {
     });
   }, []);
 
-  const handleSignUp = async (e) => {
+  async function submitForm(e) {
     e.preventDefault();
 
     const inputUserName = document.getElementById("user-name");
@@ -49,15 +46,9 @@ const signUp = () => {
           }),
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-
-          if (response.status === 409) {
-            userAlert("alert", "The username or email already exist");
-            return;
-          }
-
-          throw new Error(errorData.message || "Error during signup");
+        if (response.status === 409) {
+          userAlert("alert", "The username or email already exist");
+          return;
         }
 
         redirectPage("/signin", "fade-out", 500);
@@ -65,58 +56,46 @@ const signUp = () => {
         console.log("Error during signup:", error.message);
       }
     }
-  };
+  }
 
   return (
     <>
-      <button id="clckk" style={{ position: "fixed", top: "0" }}>
-        Click
-      </button>
-      {showMenu ? (
-        <DesplegableMenu
-          title="Menu"
-          buttons={[
-            { text: "", icon: "", function: "" },
-            { text: "", icon: "", function: "" },
-          ]}
-        />
-      ) : null}
       <div className="back-drop">
         <NavbarMenu
           items={[
             { item: "Home", url: "/" },
             { item: "Sign In", url: "/signin" },
+            { item: "Sign Up", url: "/signup", active: true },
           ]}
         />
-        <main className="fade-in">
+        <main className="fade-in main-center">
           <form
-            className="form-class"
+            className="form-class form"
             id="sign-up-form"
-            onSubmit={handleSignUp}
           >
             <h2 className="form-title">Sign Up</h2>
             <div className="inputs-container">
               <input
                 type="email"
-                className="input-form"
+                className="input-form input"
                 id="email"
                 placeholder="Email"
               />
               <input
                 type="text"
-                className="input-form"
+                className="input-form input"
                 id="user-name"
                 placeholder="User Name"
               />
               <input
                 type="text"
-                className="input-form"
+                className="input-form input"
                 id="full-name"
                 placeholder="Full Name"
               />
               <input
                 type="password"
-                className="input-form"
+                className="input-form input"
                 id="password"
                 placeholder="Password"
               />
@@ -124,7 +103,7 @@ const signUp = () => {
             <button
               type="submit"
               id="submit-signUp-btn"
-              className="accept-btn form-btn"
+              className="accept-btn form-btn btn"
             >
               Submit
             </button>

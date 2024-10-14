@@ -1,11 +1,18 @@
 const body = document.querySelector("body");
 
-
 export function redirectPage(url, className, time) {
   body.classList.add(`${className}`);
   setTimeout(() => {
     window.location.href = url;
   }, time);
+}
+
+export function changePageSetting(title, iconUrl) {
+  document.title = title;
+  const link = document.createElement("link");
+  link.rel = "icon";
+  link.type = "image/svg+xml";
+  link.href = iconUrl;
 }
 
 export function userAlert(title, message) {

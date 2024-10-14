@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import NavbarMenu from "../components/NavbarMenu.jsx";
-import { redirectPage } from "../utils/mainFunctions.js";
+import { redirectPage, changePageSetting } from "../utils/mainFunctions.js";
 
 const SignIn = () => {
   useEffect(() => {
-    document.title = "Home - Sign-In";
+    changePageSetting("Home - Sign-In", "../../public/vite.svg");
     const goToSignUpBtn = document.getElementById("go-to-sign-up");
     goToSignUpBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -25,26 +25,27 @@ const SignIn = () => {
   }, []);
   return (
     <>
-      <div className="back-drop">
+      <div className="back-drop fade-in">
         <NavbarMenu
           items={[
             { item: "Home", url: "/" },
+            { item: "Sign In", url: "/signin", active: true },
             { item: "Sign Up", url: "/signup" },
           ]}
         />
-        <main className="fade-in">
-          <form className="form-class" id="sign-in-form">
+        <main className="main-center">
+          <form className="form-class form" id="sign-in-form">
             <h2 className="form-title">Sign In</h2>
             <div className="inputs-container">
               <input
                 type="text"
-                className="input-form"
+                className="input-form input"
                 id="email-username"
                 placeholder="Email or User Name"
               />
               <input
                 type="password"
-                className="input-form"
+                className="input-form input"
                 id="password"
                 placeholder="Password"
               />
@@ -52,7 +53,7 @@ const SignIn = () => {
             <button
               type="submit"
               id="submit-signin-btn"
-              className="accept-btn form-btn"
+              className="accept-btn form-btn btn"
             >
               Submit
             </button>
