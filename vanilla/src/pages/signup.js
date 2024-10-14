@@ -5,10 +5,30 @@ import {
 } from "../utils/mainFunctions";
 import { User } from "../utils/variables.js";
 
+import NavbarBtn from "../components/NavbarBtn.js";
+
 const SignUp = () => {
   changePageSetting("Home - Sign-Up", "../../public/vite.svg");
-  
+
   signupLayout();
+
+  const backDrop = document.querySelector(".back-drop");
+
+  NavbarBtn(
+    [
+      { item: "Home", url: "/" },
+      {
+        item: "Sign In",
+        url: "/signin",
+      },
+      {
+        item: "Sign Up",
+        url: "/signup",
+        active: true,
+      },
+    ],
+    backDrop
+  );
 
   const signUpForm = document.getElementById("sign-up-form");
   signUpForm.addEventListener("submit", submitForm);
@@ -63,7 +83,7 @@ async function submitForm(e) {
 
 function signupLayout() {
   document.getElementById("app").innerHTML = `
-    <div class="back-drop">
+    <div class="back-drop fade-in"> 
        <main class="fade-in main-center">
          <form
            class="form-class form"

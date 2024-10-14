@@ -1,11 +1,24 @@
 import { changePageSetting } from "../utils/mainFunctions";
 import { redirectPage } from "../utils/mainFunctions";
+import NavbarBtn from "../components/NavbarBtn.js";
 
 const Signin = () => {
+  const app = document.querySelector("#app");
+
   changePageSetting("Home - Sign-In", "../../public/vite.svg");
 
   signinLayout();
 
+  const backDrop = document.querySelector(".back-drop");
+
+  NavbarBtn(
+    [
+      { item: "Home", url: "/" },
+      { item: "Sign In", url: "/signin", active: true },
+      { item: "Sign Up", url: "/signup" },
+    ],
+    backDrop
+  );
   const goToSignUpBtn = document.getElementById("go-to-sign-up");
   goToSignUpBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -26,9 +39,9 @@ const Signin = () => {
 };
 
 const signinLayout = () => {
-  document.querySelector("#app").innerHTML = `
-    <div class="back-drop">
-          <main class="fade-in main-center">
+  app.innerHTML = `
+    <div class="back-drop fade-in">
+          <main class="main-center">
             <form class="form-class form" id="sign-in-form">
             <h2 class="form-title">Sign In</h2>
             <div class="inputs-container">
