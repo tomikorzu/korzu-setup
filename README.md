@@ -1,13 +1,16 @@
-# Paso a paso de como crear tu propio set-up
+# create-korzu-setup
 
--mkdir my-setup
--cd my-setup
--npm init -y
+`create-korzu-setup` is a setup tool to quickly create projects with both backend and frontend using either React or Vanilla JavaScript. This package automates the folder creation, installs necessary dependencies, and configures your environment so you can start developing immediately.
 
-# Instalamos las dependencias
+## Installation
 
--npm install prompts
+To install and use this package on any computer, follow these steps:
 
--creamos un archivo index.js
+1. Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+2. Run the following command to create a new project:
 
--instalamos kleur `npm install kleur`
+```bash
+npm create korzu-setup my-app
+```
+
+then follow the instructions to choose the setup you want.
