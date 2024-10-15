@@ -1,6 +1,6 @@
 {
   "name": "create-korzu-setup",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React and Vanilla setup with backend",
   "main": "index.js",
   "scripts": {
