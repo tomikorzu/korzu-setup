@@ -17,6 +17,7 @@
   --input-color: #363742;
   --input-placeholder-color: #999;
   --menu-color: #3e4044;
+  --menu-text-color: #f2f2f2;
   --despegable-btn-color: #444654;
   --alert-text-color: #fa5e55;
   --alert-text-color-hover: #f2f2f2;
@@ -85,6 +86,7 @@ button {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  justify-content: center;
 }
 
 /* Forms */
@@ -149,33 +151,55 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  transition: filter 0.4s;
-  z-index: -1;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter 0.3s;
 }
-.blur {
-  filter: blur(5px);
-  pointer-events: none;
+
+.dropdown-menu-container.show-backdrop .back-drop {
+  backdrop-filter: blur(5px);
 }
 
 /* Menus to use */
 /* Interactive menus */
-.desplegable-menu {
+.dropdown-menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  transition: all 0.3s;
+  display: none;
+}
+.dropdown-menu {
   border-radius: 10px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   background-color: var(--menu-color);
-  position: fixed;
-  transform: translate(-50%, 700%);
-  top: 50%;
-  left: 50%;
-  transition: all 0.4s;
+  color: var(--menu-text-color);
+  position: relative;
+  transform: translate(0, 400%);
+  transition: all 0.3s;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
 }
-.show-desplegable-menu {
-  transform: translate(-50%, -50%);
+.dropdown-menu-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dropdown-menu-p {
+  color: var();
+}
+.show-dropdown-menu {
+  transform: translate(0%, 0%);
 }
 .desplegable-button {
   top: 15px;
